@@ -54,6 +54,10 @@ var MemeGenAdapter = function MemeGenAdapter() {
         window.location.protocol == 'https:' || window.location.protocol == 'https'; // without ":" to support an older FF version
     }
 
+    function secureValue() {
+      return isSecure() ? 1: 0;
+    }
+
     function buildInappRequest() {
       return {
         id: utils.getUniqueIdentifierStr(),
@@ -65,7 +69,7 @@ var MemeGenAdapter = function MemeGenAdapter() {
           },
           tagid: bidReq.placementCode,
           bidfloor: bidFloor,
-          secure: isSecure()
+          secure: secureValue()
         }],
         app: {
           id: publisherId,
@@ -94,7 +98,7 @@ var MemeGenAdapter = function MemeGenAdapter() {
           },
           tagid: bidReq.placementCode,
           bidfloor: bidFloor,
-          secure: isSecure()
+          secure: secureValue()
         }],
         site: {
           domain: domain,
