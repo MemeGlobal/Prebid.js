@@ -153,7 +153,10 @@ var MemeGenAdapter = function MemeGenAdapter() {
   }
 
   function fillAuctionPricePLaceholder(str, auctionPrice) {
-    return str.replace(/\${AUCTION_PRICE}/, auctionPrice)
+    if (typeof str != 'string') {
+      return str;
+    }
+    return str.replace(/\${AUCTION_PRICE}/, auctionPrice);
   }
 
   // expose the callback to the global object:
