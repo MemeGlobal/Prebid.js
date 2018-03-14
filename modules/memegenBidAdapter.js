@@ -34,7 +34,7 @@ var MemeGenAdapter = function MemeGenAdapter() {
     var isInapp = utils.getBidIdParameter('isInapp', bidReq.params);
     var publisherId = utils.getBidIdParameter('publisherId', bidReq.params);
     var rtbTagId = Number(utils.getBidIdParameter('rtbTagId', bidReq.params));
-    var rtbSiteId = Number(utils.getBidIdParameter('rtbSiteId', bidReq.params));
+    var rtbSiteId = utils.getBidIdParameter('rtbSiteId', bidReq.params);
     var bidFloor = Number(utils.getBidIdParameter('bidfloor', bidReq.params));
     var ua = utils.getBidIdParameter('ua', bidReq.params) || window.navigator.userAgent;
 
