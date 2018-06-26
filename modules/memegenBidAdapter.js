@@ -86,7 +86,18 @@ var MemeGenAdapter = function MemeGenAdapter() {
         at: 1,
         device: {
           ua: ua,
-          ifa: utils.getBidIdParameter('deviceIfa', bidReq.params)
+          ifa: utils.getBidIdParameter('deviceIfa', bidReq.params),
+          geo: {
+            lat: utils.getBidIdParameter('lat', bidReq.params),
+            lon: utils.getBidIdParameter('lon', bidReq.params),
+            type: utils.getBidIdParameter('geoType', bidReq.params),
+            utcoffset: utils.getBidIdParameter('utcoffset', bidReq.params)
+          }
+        },
+        user: {
+          geo: {
+            utcoffset: utils.getBidIdParameter('utcoffset', bidReq.params)
+          }
         }
       };
     }
