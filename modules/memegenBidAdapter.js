@@ -62,7 +62,8 @@ var MemeGenAdapter = function MemeGenAdapter() {
     }
 
     function buildInappRequest() {
-      return {
+        var appBundle = utils.getBidIdParameter('appBundle', bidReq.params);
+        return {
         id: utils.getUniqueIdentifierStr(),
         imp: [{
           id: bidReq.bidId,
@@ -75,9 +76,9 @@ var MemeGenAdapter = function MemeGenAdapter() {
           secure: secureValue()
         }],
         app: {
-          id: publisherId,
+          id: toStringIfExists(utils.getBidIdParameter('appId', bidReq.params) || appBundle),
           name: utils.getBidIdParameter('appName', bidReq.params),
-          bundle: utils.getBidIdParameter('appBundle', bidReq.params),
+          bundle: appBundle,
           storeurl: utils.getBidIdParameter('appStoreurl', bidReq.params),
           publisher: {
             id: publisherId
