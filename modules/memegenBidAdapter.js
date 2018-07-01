@@ -76,7 +76,7 @@ var MemeGenAdapter = function MemeGenAdapter() {
           secure: secureValue()
         }],
         app: {
-          id: toStringIfExists(utils.getBidIdParameter('appId', bidReq.params) || appBundle),
+          id: toStringIfExists(utils.getBidIdParameter('appId', bidReq.params) || rtbSiteId || appBundle),
           name: utils.getBidIdParameter('appName', bidReq.params),
           bundle: appBundle,
           storeurl: utils.getBidIdParameter('appStoreurl', bidReq.params),
