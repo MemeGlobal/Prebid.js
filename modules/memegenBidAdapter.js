@@ -127,6 +127,11 @@ var MemeGenAdapter = function MemeGenAdapter() {
         device: {
           ua: ua,
         },
+        user: {
+          geo: {
+            utcoffset: utils.getBidIdParameter('utcoffset', bidReq.params)
+          }
+        }
       };
     }
 
