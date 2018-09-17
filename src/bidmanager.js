@@ -424,6 +424,7 @@ events.on(CONSTANTS.EVENTS.BID_ADJUSTMENT, function (bid) {
 });
 
 function adjustBids(bid) {
+  bid.cpmOriginal=bid.cpm;
   var code = bid.bidderCode;
   var bidPriceAdjusted = bid.cpm;
   let bidCpmAdjustment;

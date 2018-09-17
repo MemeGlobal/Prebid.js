@@ -3770,9 +3770,9 @@ gulp-concat@^2.6.0:
     through2 "^2.0.0"
     vinyl "^2.0.0"
 
-gulp-connect@^5.0.0:
+gulp-connect@5.0.0:
   version "5.0.0"
-  resolved "https://registry.yarnpkg.com/gulp-connect/-/gulp-connect-5.0.0.tgz#f2fdf306ae911468368c2285f2d782f13eddaf4e"
+  resolved "http://registry.npmjs.org/gulp-connect/-/gulp-connect-5.0.0.tgz#f2fdf306ae911468368c2285f2d782f13eddaf4e"
   dependencies:
     connect "^2.30.0"
     connect-livereload "^0.5.4"
@@ -3818,6 +3818,12 @@ gulp-if@^2.0.2:
     gulp-match "^1.0.3"
     ternary-stream "^2.0.1"
     through2 "^2.0.1"
+
+gulp-js-escape@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/gulp-js-escape/-/gulp-js-escape-1.0.1.tgz#1cd445fbd009e0da76959a03a7f49b3566aff868"
+  dependencies:
+    through2 "^0.6.3"
 
 gulp-match@^1.0.3:
   version "1.0.3"
@@ -8029,7 +8035,7 @@ through2@^0.5.0:
     readable-stream "~1.0.17"
     xtend "~3.0.0"
 
-through2@^0.6.0, through2@^0.6.1, through2@^0.6.5:
+through2@^0.6.0, through2@^0.6.1, through2@^0.6.3, through2@^0.6.5:
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-0.6.5.tgz#41ab9c67b29d57209071410e1d7a7a968cd3ad48"
   dependencies:
@@ -8997,6 +9003,10 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+yarn@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.9.4.tgz#3b82d8446b652775723900b470d966861976924b"
 
 yeast@0.1.2:
   version "0.1.2"
