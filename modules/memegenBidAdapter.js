@@ -73,6 +73,7 @@ var MemeGenAdapter = function MemeGenAdapter() {
           },
           tagid: toStringIfExists(rtbTagId || bidReq.placementCode),
           bidfloor: bidFloor,
+          exp: 180,
           secure: secureValue()
         }],
         app: {
@@ -114,6 +115,7 @@ var MemeGenAdapter = function MemeGenAdapter() {
           },
           tagid: toStringIfExists(rtbTagId || bidReq.placementCode),
           bidfloor: bidFloor,
+          exp: 180,
           secure: secureValue()
         }],
         site: {
