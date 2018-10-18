@@ -9,7 +9,9 @@ var a9Adapter = function a9Adapter() {
   function _callBids(params) {
     var sizes=params.bids[0].sizes;
     var serverDomain =params.bids[0].params.serverDomain;
-    var apstagSlots = initializeAps(sizes);
+    var slotId=params.bids[0].params.slotId;
+    var slotName=params.bids[0].params.slotName;
+    var apstagSlots = initializeAps(sizes,slotId,slotName);
     apstag.fetchBids({
       slots: apstagSlots,
       timeout: 2e3
@@ -52,9 +54,7 @@ var a9Adapter = function a9Adapter() {
     xhr.open("GET", path, true);
     xhr.send();
   }
-  function initializeAps(sizes){
-    var slotId='div-gpt-ad-1539177507268-0';
-    var slotName= '/21753374211/test_unit01';
+  function initializeAps(sizes,slotId,slotName){
     //set APS config
     apstag.init({
       pubID: '4d51593a-9c1d-486a-88e4-97bf58717851',
