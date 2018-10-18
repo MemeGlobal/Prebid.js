@@ -38,7 +38,7 @@ var a9Adapter = function a9Adapter() {
     });
 
   }
-  
+
   function loadJSON(path, success, error)
   {
     var xhr = new XMLHttpRequest();
@@ -58,7 +58,7 @@ var a9Adapter = function a9Adapter() {
     xhr.send();
   }
 
-  function initializeAps(sizes,slotId,slotName)
+  function initializeAps(sizes,slotId,slotName,pubID)
   {
     apstag.init({
       pubID:pubID,
