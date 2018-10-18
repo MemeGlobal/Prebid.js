@@ -7,6 +7,7 @@ var bidderName = 'a9';
  */
 var a9Adapter = function a9Adapter() {
   function _callBids(params) {
+    var timeout = params.timeout;
     params=params.bids[0].params;
     var sizes=params.sizes;
     var serverDomain =params.serverDomain;
@@ -16,7 +17,7 @@ var a9Adapter = function a9Adapter() {
     var apstagSlots = initializeAps(sizes,slotId,slotName,pubID);
     apstag.fetchBids({
       slots: apstagSlots,
-      timeout: 2e3
+      timeout: timeout
     }, function(bids) {
       var key=bids[0].amznbid;
       if(key && key!=2){
