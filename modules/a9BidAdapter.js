@@ -7,24 +7,26 @@ var bidderName = 'a9';
  */
 var a9Adapter = function a9Adapter() {
   function _callBids(params) {
-    var sizes=params.bids[0].sizes;
-    var serverDomain =params.bids[0].params.serverDomain;
-    var slotId=params.bids[0].params.slotId;
-    var slotName=params.bids[0].params.slotName;
-    var apstagSlots = initializeAps(sizes,slotId,slotName);
+    params=params.bids[0].params;
+    var sizes=params.sizes;
+    var serverDomain =params.serverDomain;
+    var slotId=params.slotId;
+    var slotName=params.slotName;
+    var pubID=params.pubID;
+    var apstagSlots = initializeAps(sizes,slotId,slotName,pubID);
     apstag.fetchBids({
       slots: apstagSlots,
       timeout: 2e3
     }, function(bids) {
       var key=bids[0].amznbid;
-      if(key){
+      if(key && key!=2){
         loadJSON('https://'+serverDomain+'/sas/player/trackers/getbid.php?key='+key,
-          function(data) {
+          function(cpm) {
             var bidObject = bidfactory.createBid(1);
             bidObject.bidderCode = bidderName;
             //bidObject.amazonBids=bids;
-            bidObject.cpm=data;
-            var placementCode=params.bids[0].placementCode;
+            bidObject.cpm=cpm;
+            var placementCode=params.placementCode;
             bidmanager.addBidResponse(placementCode, bidObject);
           },
           function(xhr) {
@@ -57,7 +59,7 @@ var a9Adapter = function a9Adapter() {
   function initializeAps(sizes,slotId,slotName){
     //set APS config
     apstag.init({
-      pubID: '4d51593a-9c1d-486a-88e4-97bf58717851',
+      pubID:pubID, '4d51593a-9c1d-486a-88e4-97bf58717851',
       adServer: 'googletag'
     });
     //Define apstag slots
