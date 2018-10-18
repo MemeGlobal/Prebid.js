@@ -7,15 +7,16 @@ var bidderName = 'a9';
  */
 var a9Adapter = function a9Adapter() {
   function _callBids(params) {
-    console.log("params: "+JSON.stringify(params));
     var sizes=params.bids[0].sizes;
+    var serverDomain =params.bids[0].params.serverDomain;
     var apstagSlots = initializeAps(sizes);
     apstag.fetchBids({
-      slots: apstagSlots
+      slots: apstagSlots,
+      timeout: 2e3
     }, function(bids) {
       var key=bids[0].amznbid;
       if(key){
-        loadJSON('https://mediamart.tv/sas/ads/utils/php/getbid.php?key='+'1ttbeo0',
+        loadJSON('https://'+serverDomain+'/sas/player/trackers/getbid.php?key='+key,
           function(data) {
             var bidObject = bidfactory.createBid(1);
             bidObject.bidderCode = bidderName;
@@ -23,19 +24,15 @@ var a9Adapter = function a9Adapter() {
             bidObject.cpm=data;
             var placementCode=params.bids[0].placementCode;
             bidmanager.addBidResponse(placementCode, bidObject);
-            console.log("amazon bid set");
           },
           function(xhr) {
             return;
           }
         );
       }
-      return;
-
 
     });
 
-    console.log("finished callbids amazon");
   }
   function loadJSON(path, success, error)
   {
@@ -71,6 +68,7 @@ var a9Adapter = function a9Adapter() {
     }];
     return apstagSlots;
   }
+
 
   return {
     callBids: _callBids
