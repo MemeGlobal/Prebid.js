@@ -38,6 +38,7 @@ var a9Adapter = function a9Adapter() {
     });
 
   }
+  
   function loadJSON(path, success, error)
   {
     var xhr = new XMLHttpRequest();
@@ -56,10 +57,11 @@ var a9Adapter = function a9Adapter() {
     xhr.open("GET", path, true);
     xhr.send();
   }
-  function initializeAps(sizes,slotId,slotName){
-    //set APS config
+
+  function initializeAps(sizes,slotId,slotName)
+  {
     apstag.init({
-      pubID:pubID, '4d51593a-9c1d-486a-88e4-97bf58717851',
+      pubID:pubID,
       adServer: 'googletag'
     });
     //Define apstag slots
