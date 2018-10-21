@@ -8,8 +8,9 @@ var bidderName = 'a9';
 var a9Adapter = function a9Adapter() {
   function _callBids(params) {
     var timeout = params.timeout;
+    console.log("timeout: "+timeout);
     params=params.bids[0].params;
-    var sizes=params.sizes;
+    var sizes=JSON.parse(params.sizes);
     var serverDomain =params.serverDomain;
     var slotId=params.slotId;
     var slotName=params.slotName;
