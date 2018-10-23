@@ -8,6 +8,7 @@ var bidderName = 'a9';
 var a9Adapter = function a9Adapter() {
   function _callBids(params) {
     var timeout = params.timeout;
+    var placementCode=params.bids[0].placementCode;
     params=params.bids[0].params;
     var sizes=params.sizes;
     var serverDomain =params.serverDomain;
@@ -27,7 +28,6 @@ var a9Adapter = function a9Adapter() {
             bidObject.bidderCode = bidderName;
             //bidObject.amazonBids=bids;
             bidObject.cpm=cpm;
-            var placementCode=params.placementCode;
             bidmanager.addBidResponse(placementCode, bidObject);
           },
           function(xhr) {
