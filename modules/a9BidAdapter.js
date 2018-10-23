@@ -20,7 +20,6 @@ var a9Adapter = function a9Adapter() {
       slots: apstagSlots,
       timeout: timeout
     }, function(bids) {
-      console.log(JSON.stringify(bids));
       var key=bids[0].amznbid;
       if(key && key!=2){
         loadJSON('https://'+serverDomain+'/sas/player/trackers/getbid.php?key='+key,
