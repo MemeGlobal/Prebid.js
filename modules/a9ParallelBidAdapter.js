@@ -1,11 +1,11 @@
 var bidfactory = require('src/bidfactory.js');
 var bidmanager = require('src/bidmanager.js');
 var adaptermanager = require('src/adaptermanager');
-var bidderName = 'a9_parallel';
+var bidderName = 'a9Parallel';
 /**
  * General Adapter for requesting bids from a9
  */
-var a9_parallelAdapter = function a9Adapter() {
+var a9ParallelAdapter = function a9ParallelAdapter() {
   function _callBids(params) {
     var bidObject = bidfactory.createBid(2);
     bidObject.bidderCode = bidderName;
@@ -20,7 +20,7 @@ var a9_parallelAdapter = function a9Adapter() {
   };
 };
 
-adaptermanager.registerBidAdapter(new a9_parallelAdapter(), bidderName);
+adaptermanager.registerBidAdapter(new a9ParallelAdapter(), bidderName);
 
-module.exports = a9_parallelAdapter;
+module.exports = a9ParallelAdapter;
 
