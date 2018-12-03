@@ -226,6 +226,7 @@ AppNexusAdapter = function AppNexusAdapter() {
 };
 
 adaptermanager.registerBidAdapter(new AppNexusAdapter(), 'appnexus');
+adaptermanager.aliasBidAdapter('appnexus', 'districtm');
 adaptermanager.aliasBidAdapter('appnexus', 'brealtime');
 adaptermanager.aliasBidAdapter('appnexus', 'pagescience');
 adaptermanager.aliasBidAdapter('appnexus', 'defymedia');
