@@ -12,7 +12,7 @@ var bidderName = 'memegen';
  * OpenRTB compatible
  */
 var MemeGenAdapter = function MemeGenAdapter() {
-  var openRtbAdapterHost = 'whichlike.com';
+  var openRtbAdapterHost = 'whichtalk.com';
   var timeout;
   function _callBids(params) {
     timeout = params.timeout;
