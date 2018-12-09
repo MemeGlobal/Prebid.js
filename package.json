@@ -6,7 +6,7 @@
   "scripts": {
     "test": "gulp test",
     "lint": "gulp lint",
-    "build_prebid_js": "gulp build --modules=criteoBidAdapter"
+    "build_prebid_js": "gulp build --modules=criteoBidAdapter,a9ParallelBidAdapter,33acrossBidAdapter,appnexusBidAdapter"
   },
   "repository": {
     "type": "git",
@@ -46,7 +46,6 @@
     "gulp-babel": "^6.1.2",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",
-    "gulp-webserver": "^0.9.1",
     "gulp-coveralls": "^0.1.4",
     "gulp-eslint": "^4.0.0",
     "gulp-footer": "github:prebid/gulp-footer#master",
@@ -59,6 +58,7 @@
     "gulp-shell": "^0.5.2",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.0",
+    "gulp-webserver": "^0.9.1",
     "ignore-loader": "^0.1.2",
     "is-docker": "^1.1.0",
     "istanbul": "^0.4.5",
