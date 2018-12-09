@@ -12,7 +12,7 @@ export const spec = {
    * @return boolean True if this is a valid bid, and false otherwise.
    */
   isBidRequestValid: function(bid) {
-    return true;
+    return false;
   },
   /**
    * Make a server request from the list of BidRequests.
@@ -21,13 +21,6 @@ export const spec = {
    * @return {method: string, url: null, data: string} Info describing the request to the server.
    */
   buildRequests: function(validBidRequests) {
-    let blob = new Blob(["A9Parallel blob"], { type: 'text/plain' });
-    let blobUrl = URL.createObjectURL(blob);
-    return {
-      method: 'GET',
-      url: blobUrl,
-      data: "",
-    };
   },
   /**
    * Unpack the response from the server into a list of bids.
