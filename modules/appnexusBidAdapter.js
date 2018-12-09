@@ -30,7 +30,10 @@ const SOURCE = 'pbjs';
 
 export const spec = {
   code: BIDDER_CODE,
-  aliases: ['appnexusAst', 'brealtime', 'emxdigital', 'pagescience', 'defymedia', 'gourmetads', 'matomy', 'featureforward', 'oftmedia', 'districtm'],
+  aliases: ['appnexusAst', 'brealtime', 'emxdigital', 'pagescience', 'defymedia', 'gourmetads', 'matomy', 'featureforward', 'oftmedia', 'districtm'
+    ,'appnexus_152media', 'appnexus_152media1', 'appnexus_152media2', 'appnexus_152media3', 'appnexus_152media4', 'appnexus_152media5', 'appnexus_152media6'
+    , 'appnexus_springserve', 'appnexus_springserve1', 'appnexus_springserve2', 'appnexus_springserve3', 'appnexus_springserve4', 'appnexus_springserve5', 'appnexus_springserve6'
+  ],
   supportedMediaTypes: [BANNER, VIDEO, NATIVE],
 
   /**
