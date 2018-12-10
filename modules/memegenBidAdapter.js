@@ -32,6 +32,14 @@ function parseBidRequest(bidRequest) {
   return JSON.parse(obj.br);
 }
 
+function find(array,property,value) {
+  for(let i=0;i<array.length;i++){
+    if(array[i][property]==value){
+      return array[i];
+    }
+  }
+}
+
 export const spec = {
   code: BIDDER_CODE,
   aliases: ['memegen'], // short code
@@ -251,20 +259,15 @@ export const spec = {
       var placementCode = '';
       var bidSet = bidsRequested;
       var memegenTagId = tag;
-
-      var bidRequested = bidSet.bids.find(b => b.bidId === bidderBid.impid);
+      
+      var bidRequested =find(bidSet.bids,"bidId",bidderBid.impid);
       if (bidRequested) {
         var bidResponse = bidfactory.createBid(1);
         placementCode = bidRequested.placementCode;
         bidRequested.status = CONSTANTS.STATUS.GOOD;
 
         responseCPM = parseFloat(bidderBid.price);
-        try{
-          bidderBid.nurl = fillAuctionPricePLaceholder(bidderBid.nurl, responseCPM);
-        }catch (e) {
-          console.log(e);
-        }
-
+        bidderBid.nurl = fillAuctionPricePLaceholder(bidderBid.nurl, responseCPM);
         bidderBid.adm = fillAuctionPricePLaceholder(bidderBid.adm, responseCPM);
         if (responseCPM === 0) {
           var bid = bidfactory.createBid(2);
