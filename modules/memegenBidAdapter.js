@@ -38,6 +38,7 @@ function find(array,property,value) {
       return array[i];
     }
   }
+  return {};
 }
 
 export const spec = {
@@ -259,7 +260,7 @@ export const spec = {
       var placementCode = '';
       var bidSet = bidsRequested;
       var memegenTagId = tag;
-      
+
       var bidRequested =find(bidSet.bids,"bidId",bidderBid.impid);
       if (bidRequested) {
         var bidResponse = bidfactory.createBid(1);
