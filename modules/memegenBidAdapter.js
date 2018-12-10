@@ -38,7 +38,11 @@ export const spec = {
 
 
   isBidRequestValid: function(bid) {
-    return true;
+    if(bid && bid.params && bid.params.bidderUrl){
+      return true;
+    }
+    return false;
+
   },
 
   buildRequests: function(validBidRequests,bidderRequest) {
