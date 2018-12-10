@@ -52,6 +52,7 @@ export const spec = {
     }
     return requests;
   },
+
   createBidRequest:function (bidReq) {
     timeout = timeout || config.getConfig('bidderTimeout');
     // build bid request object
@@ -292,7 +293,6 @@ export const spec = {
 
 
   getUserSyncs: function(syncOptions, serverResponses) {
-    console.log("getUserSyncs");
     const syncs = []
     return syncs;
   },
@@ -306,7 +306,7 @@ export const spec = {
   onBidWon: function(bid) {
     // Bidder specific code
   },
-  
+
   onSetTargeting: function(bid) {
     // Bidder specific code
   },
