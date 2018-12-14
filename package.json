@@ -6,7 +6,7 @@
   "scripts": {
     "test": "gulp test",
     "lint": "gulp lint",
-    "build_prebid_js": "gulp build --modules=criteoBidAdapter,a9ParallelBidAdapter,33acrossBidAdapter,appnexusBidAdapter,districtmDMXBidAdapter,ixBidAdapter,adtelligentBidAdapter,memegenBidAdapter"
+    "build_prebid_js": "gulp build --modules=criteoBidAdapter,a9ParallelBidAdapter,33acrossBidAdapter,appnexusBidAdapter,districtmDMXBidAdapter,ixBidAdapter,adtelligentBidAdapter,memegenBidAdapter,pulsepointBidAdapter"
   },
   "repository": {
     "type": "git",
