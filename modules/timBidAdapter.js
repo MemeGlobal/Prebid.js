@@ -1,7 +1,28 @@
 import * as utils from 'src/utils';
 import {config} from 'src/config';
 import {registerBidder} from 'src/adapters/bidderFactory';
+import * as bidfactory from "../src/bidfactory";
 const BIDDER_CODE = 'tim';
+var bidsRequested;
+
+
+function fillAuctionPricePLaceholder(str, auctionPrice) {
+  if (typeof str != 'string') {
+    return str;
+  }
+  return str.replace(/\${AUCTION_PRICE}/g, auctionPrice);
+}
+
+
+function find(array,property,value) {
+  for(let i=0;i<array.length;i++){
+    if(array[i][property]==value){
+      return array[i];
+    }
+  }
+  return {};
+}
+
 export const spec = {
   code: BIDDER_CODE,
   aliases: ['tim'], // short code
@@ -12,8 +33,11 @@ export const spec = {
    * @return boolean True if this is a valid bid, and false otherwise.
    */
   isBidRequestValid: function(bid) {
-    console.log("isBidRequestValid: "+JSON.stringify(bid));
-    return true;
+    if(bid.params && bid.params.publisher && bid.params.placementCode && bid.params.bidfloor){
+      return true;
+    }
+    return false;
+
   },
   /**
    * Make a server request from the list of BidRequests.
@@ -21,9 +45,9 @@ export const spec = {
    * @param {validBidRequests[]} - an array of bids
    * @return {method: string, url: null, data: string} Info describing the request to the server.
    */
-  buildRequests: function(validBidRequests) {
+  buildRequests: function(validBidRequests,bidderRequest) {
+    bidsRequested=bidderRequest;
     var requests = [];
-    console.log("validBidRequests: "+JSON.stringify(validBidRequests));
     for (var i = 0; i < validBidRequests.length; i++) {
       requests.push(this.requestBid(validBidRequests[i]));
     }
@@ -81,8 +105,6 @@ export const spec = {
       }
     };
 
-    console.log("bidRequest: "+JSON.stringify(bidRequest));
-
 
     var url = '//hb.stinger-bidder.tech/v2/services/prebid/'+publisherid+'/'+placementCode+'?'+'br=' + encodeURIComponent(JSON.stringify(bidRequest));
     return {
@@ -90,6 +112,7 @@ export const spec = {
       url: url,
       data: "",
     };
+
   },
   /**
    * Unpack the response from the server into a list of bids.
@@ -98,9 +121,52 @@ export const spec = {
    * @return {Bid[]} An array of bids which were nested inside the server.
    */
   interpretResponse: function(serverResponse, bidRequest) {
-    console.log("serverResponse: "+JSON.stringify(serverResponse));
-    console.log("bidRequest: "+JSON.stringify(bidRequest));
-  return [];
+    var bidResp = serverResponse;
+    const bidResponses = [];
+    if ((!bidResp || !bidResp.id) ||
+      (!bidResp.seatbid || bidResp.seatbid.length === 0 || !bidResp.seatbid[0].bid || bidResp.seatbid[0].bid.length === 0)) {
+      return [];
+    }
+
+    bidResp.seatbid[0].bid.forEach(function (bidderBid) {
+      var responseCPM;
+      var placementCode = '';
+      var bidSet = bidsRequested;
+      var bidRequested =find(bidSet.bids,"bidId",bidderBid.impid);
+      if (bidRequested) {
+        var bidResponse = bidfactory.createBid(1);
+        placementCode = bidRequested.placementCode;
+        bidRequested.status = CONSTANTS.STATUS.GOOD;
+
+        responseCPM = parseFloat(bidderBid.price);
+        bidderBid.nurl = fillAuctionPricePLaceholder(bidderBid.nurl, responseCPM);
+        bidderBid.adm = fillAuctionPricePLaceholder(bidderBid.adm, responseCPM);
+        if (responseCPM === 0) {
+          var bid = bidfactory.createBid(2);
+          bid.bidderCode = BIDDER_CODE;
+          bidResponses.push(bid);
+          return bidResponses;
+        }
+        bidResponse.placementCode = placementCode;
+        bidResponse.size = bidRequested.sizes;
+        var responseAd = bidderBid.adm;
+        var responseNurl = '<img src="' + bidderBid.nurl + '" height="0px" width="0px" style="display: none;">';
+        bidResponse.creativeId = bidderBid.id;
+        bidResponse.bidderCode = BIDDER_CODE;
+        bidResponse.cpm = responseCPM;
+        bidResponse.ad = decodeURIComponent(responseAd + responseNurl);
+        bidResponse.width = parseInt(bidderBid.w);
+        bidResponse.height = parseInt(bidderBid.h);
+        bidResponse.currency="USD";
+        bidResponse.netRevenue=true;
+        bidResponse.requestId=bidRequest.bidId;
+        bidResponse.ttl=360;
+        bidResponses.push(bidResponse);
+
+        }
+    });
+    return bidResponses;
+
 },
   getLanguage: function() {
   const language = navigator.language ? 'language' : 'userLanguage';
