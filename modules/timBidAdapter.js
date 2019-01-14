@@ -6,14 +6,6 @@ const BIDDER_CODE = 'tim';
 var bidsRequested;
 
 
-function fillAuctionPricePLaceholder(str, auctionPrice) {
-  if (typeof str != 'string') {
-    return str;
-  }
-  return str.replace(/\${AUCTION_PRICE}/g, auctionPrice);
-}
-
-
 function find(array,property,value) {
   for(let i=0;i<array.length;i++){
     if(array[i][property]==value){
@@ -132,8 +124,6 @@ export const spec = {
         bidRequested.status = CONSTANTS.STATUS.GOOD;
 
         responseCPM = parseFloat(bidderBid.price);
-        bidderBid.nurl = fillAuctionPricePLaceholder(bidderBid.nurl, responseCPM);
-        bidderBid.adm = fillAuctionPricePLaceholder(bidderBid.adm, responseCPM);
         if (responseCPM === 0) {
           var bid = bidfactory.createBid(2);
           bid.bidderCode = BIDDER_CODE;
@@ -150,7 +140,7 @@ export const spec = {
         bidResponse.ad = decodeURIComponent(responseAd + responseNurl);
         bidResponse.width = parseInt(bidderBid.w);
         bidResponse.height = parseInt(bidderBid.h);
-        bidResponse.currency="USD";
+        bidResponse.currency=bidderBid.cur;
         bidResponse.netRevenue=true;
         bidResponse.requestId=bidRequest.bidId;
         bidResponse.ttl=360;
