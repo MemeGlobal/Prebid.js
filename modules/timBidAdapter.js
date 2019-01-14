@@ -33,7 +33,7 @@ export const spec = {
    * @return boolean True if this is a valid bid, and false otherwise.
    */
   isBidRequestValid: function(bid) {
-    if(bid.params && bid.params.publisherid && bid.params.placementCode && bid.params.bidfloor){
+    if(bid.params && bid.params.publisherid && bid.params.placementCode){
       return true;
     }
     return false;
@@ -55,25 +55,17 @@ export const spec = {
   },
 
   requestBid:function(bidReq){
+    console.log("bidReq: "+JSON.stringify(bidReq));
     // build bid request object
     var domain = window.location.host;
     var page = window.location.host + window.location.pathname + location.search + location.hash;
-    var publisherid = utils.getBidIdParameter('publisherid', bidReq.params);
-    var bidFloor = Number(utils.getBidIdParameter('bidfloor', bidReq.params));
-    var placementCode = utils.getBidIdParameter('placementCode', bidReq.params);
+    var publisherid = bidReq.params.publisherid;
+    var bidFloor = bidReq.params.bidfloor;
+    var placementCode = bidReq.params.placementCode;
 
-    var adW = 0;
-    var adH = 0;
+    var adW = bidReq.mediaTypes.banner.sizes[0][0];
+    var adH = bidReq.mediaTypes.banner.sizes[0][1];
 
-    var bidSizes = Array.isArray(bidReq.params.sizes) ? bidReq.params.sizes : bidReq.sizes;
-    var sizeArrayLength = bidSizes.length;
-    if (sizeArrayLength === 2 && typeof bidSizes[0] === 'number' && typeof bidSizes[1] === 'number') {
-      adW = bidSizes[0];
-      adH = bidSizes[1];
-    } else {
-      adW = bidSizes[0][0];
-      adH = bidSizes[0][1];
-    }
 
     // build bid request with impressions
     var bidRequest = {
@@ -102,6 +94,9 @@ export const spec = {
          "ua": navigator.userAgent
       }
     };
+    if(!bidFloor){
+      delete bidRequest.imp["bidfloor"];
+    }
 
 
     var url = '//hb.stinger-bidder.tech/api/v2/services/prebid/'+publisherid+'/'+placementCode+'?'+'br=' + encodeURIComponent(JSON.stringify(bidRequest));
