@@ -33,7 +33,7 @@ export const spec = {
    * @return boolean True if this is a valid bid, and false otherwise.
    */
   isBidRequestValid: function(bid) {
-    if(bid.params && bid.params.publisherid && bid.params.placementCode && bid.params.bidfloor && bid.params.ip){
+    if(bid.params && bid.params.publisherid && bid.params.placementCode && bid.params.bidfloor){
       return true;
     }
     return false;
@@ -61,7 +61,6 @@ export const spec = {
     var publisherid = utils.getBidIdParameter('publisherid', bidReq.params);
     var bidFloor = Number(utils.getBidIdParameter('bidfloor', bidReq.params));
     var placementCode = utils.getBidIdParameter('placementCode', bidReq.params);
-    var ip =  utils.getBidIdParameter('ip', bidReq.params);
 
     var adW = 0;
     var adH = 0;
@@ -99,14 +98,13 @@ export const spec = {
          "language": this.getLanguage(),
          "w":adW,
          "h":adH,
-         "ip": ip,
          "js":1,
          "ua": navigator.userAgent
       }
     };
 
 
-    var url = '//hb.stinger-bidder.tech/v2/services/prebid/'+publisherid+'/'+placementCode+'?'+'br=' + encodeURIComponent(JSON.stringify(bidRequest));
+    var url = '//hb.stinger-bidder.tech/api/v2/services/prebid/'+publisherid+'/'+placementCode+'?'+'br=' + encodeURIComponent(JSON.stringify(bidRequest));
     return {
       method: 'GET',
       url: url,
