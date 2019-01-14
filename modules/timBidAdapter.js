@@ -33,7 +33,7 @@ export const spec = {
    * @return boolean True if this is a valid bid, and false otherwise.
    */
   isBidRequestValid: function(bid) {
-    if(bid.params && bid.params.publisher && bid.params.placementCode && bid.params.bidfloor){
+    if(bid.params && bid.params.publisherid && bid.params.placementCode && bid.params.bidfloor && bid.params.ip){
       return true;
     }
     return false;
