@@ -14,6 +14,7 @@ function find(array,property,value) {
   }
   return {};
 }
+
 function parseBidRequest(bidRequest) {
   let params=bidRequest.url.split('?')[1];
   var obj = {};
@@ -28,6 +29,18 @@ function parseBidRequest(bidRequest) {
   }
 
   return JSON.parse(obj.br);
+}
+
+/**
+ *  Format creative with optional nurl call
+ *  @param bid rtb Bid object
+ */
+function formatAdMarkup(bid) {
+  var adm = bid.adm;
+  if ('nurl' in bid) {
+    adm += utils.createTrackPixelHtml(`${bid.nurl}&px=1`);
+  }
+  return `<!DOCTYPE html><html><head><title></title><body style='margin:0px;padding:0px;'>${adm}</body></head>`;
 }
 
 export const spec = {
@@ -138,7 +151,6 @@ export const spec = {
         var bidResponse = bidfactory.createBid(1);
         placementCode = bidRequested.placementCode;
         bidRequested.status = CONSTANTS.STATUS.GOOD;
-        console.log(bidderBid.price);
         responseCPM = parseFloat(bidderBid.price);
         if (responseCPM === 0) {
           var bid = bidfactory.createBid(2);
@@ -148,12 +160,10 @@ export const spec = {
         }
         bidResponse.placementCode = placementCode;
         bidResponse.size = bidRequested.sizes;
-        var responseAd = bidderBid.adm;
-        var responseNurl = '<img src="' + bidderBid.nurl + '" height="0px" width="0px" style="display: none;">';
         bidResponse.creativeId = bidderBid.id;
         bidResponse.bidderCode = BIDDER_CODE;
         bidResponse.cpm = responseCPM;
-        bidResponse.ad = decodeURIComponent(responseAd + responseNurl);
+        bidResponse.ad = formatAdMarkup(bidderBid);
         bidResponse.width = parseInt(bidderBid.w);
         bidResponse.height = parseInt(bidderBid.h);
         bidResponse.currency=bidResp.cur;
