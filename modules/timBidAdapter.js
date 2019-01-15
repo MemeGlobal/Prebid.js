@@ -35,9 +35,9 @@ function parseBidRequest(bidRequest) {
 function formatAdMarkup(bid) {
   var adm = bid.adm;
   if ('nurl' in bid) {
-    adm += utils.createTrackPixelHtml(`${bid.nurl}&px=1`);
+    adm += utils.createTrackPixelHtml(bid.nurl);
   }
-  return `<!DOCTYPE html><html><head><title></title><body style='margin:0px;padding:0px;'>${adm}</body></head>`;
+  return "<!DOCTYPE html><html><head><title></title><body style='margin:0px;padding:0px;'>"+adm+"</body></head>";
 }
 
 export const spec = {
