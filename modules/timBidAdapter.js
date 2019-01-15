@@ -2,9 +2,9 @@ import * as utils from 'src/utils';
 import {config} from 'src/config';
 import {registerBidder} from 'src/adapters/bidderFactory';
 import * as bidfactory from "../src/bidfactory";
+var CONSTANTS = require('src/constants.json');
 const BIDDER_CODE = 'tim';
 var bidsRequested;
-
 
 function find(array,property,value) {
   for(let i=0;i<array.length;i++){
@@ -13,6 +13,21 @@ function find(array,property,value) {
     }
   }
   return {};
+}
+function parseBidRequest(bidRequest) {
+  let params=bidRequest.url.split('?')[1];
+  var obj = {};
+  var pairs = params.split('&');
+  try{
+    for(var i in pairs){
+      var split = pairs[i].split('=');
+      obj[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
+    }
+  }catch (e) {
+    console.log(e);
+  }
+
+  return JSON.parse(obj.br);
 }
 
 export const spec = {
@@ -47,7 +62,6 @@ export const spec = {
   },
 
   requestBid:function(bidReq){
-    console.log("bidReq: "+JSON.stringify(bidReq));
     // build bid request object
     var domain = window.location.host;
     var page = window.location.host + window.location.pathname + location.search + location.hash;
@@ -90,12 +104,13 @@ export const spec = {
       delete bidRequest.imp["bidfloor"];
     }
 
-
+    bidRequest.bidId = bidReq.bidId;
     var url = '//hb.stinger-bidder.tech/api/v2/services/prebid/'+publisherid+'/'+placementCode+'?'+'br=' + encodeURIComponent(JSON.stringify(bidRequest));
     return {
       method: 'GET',
       url: url,
       data: "",
+      options: {withCredentials: false}
     };
 
   },
@@ -106,7 +121,8 @@ export const spec = {
    * @return {Bid[]} An array of bids which were nested inside the server.
    */
   interpretResponse: function(serverResponse, bidRequest) {
-    var bidResp = serverResponse;
+    bidRequest=parseBidRequest(bidRequest);
+    var bidResp = serverResponse.body;
     const bidResponses = [];
     if ((!bidResp || !bidResp.id) ||
       (!bidResp.seatbid || bidResp.seatbid.length === 0 || !bidResp.seatbid[0].bid || bidResp.seatbid[0].bid.length === 0)) {
@@ -122,7 +138,7 @@ export const spec = {
         var bidResponse = bidfactory.createBid(1);
         placementCode = bidRequested.placementCode;
         bidRequested.status = CONSTANTS.STATUS.GOOD;
-
+        console.log(bidderBid.price);
         responseCPM = parseFloat(bidderBid.price);
         if (responseCPM === 0) {
           var bid = bidfactory.createBid(2);
