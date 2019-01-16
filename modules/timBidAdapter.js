@@ -47,7 +47,15 @@ export const spec = {
     if(bid.params && bid.params.publisherid && bid.params.placementCode){
       return true;
     }
-    utils.logError("error bid: " + JSON.stringify(bid));
+    if(!bid.params){
+      utils.logError("bid not valid: params were not provided");
+    }
+    else if(!bid.params.publisherid){
+      utils.logError("bid not valid: publisherid was not provided");
+    }
+    else if(!bid.params.placementCode){
+      utils.logError("bid not valid: placementCode was not provided");
+    }
     return false;
 
   },
