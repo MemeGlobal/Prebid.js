@@ -25,7 +25,7 @@ function parseBidRequest(bidRequest) {
       obj[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
     }
   }catch (e) {
-    console.log(e);
+    utils.logError(e);
   }
 
   return JSON.parse(obj.br);
@@ -42,12 +42,12 @@ function formatAdMarkup(bid) {
 
 export const spec = {
   code: BIDDER_CODE,
-  aliases: ['tim'], // short code
 
   isBidRequestValid: function(bid) {
     if(bid.params && bid.params.publisherid && bid.params.placementCode){
       return true;
     }
+    utils.logError("error bid: " + JSON.stringify(bid));
     return false;
 
   },
@@ -56,15 +56,15 @@ export const spec = {
     bidsRequested=bidderRequest;
     var requests = [];
     for (var i = 0; i < validBidRequests.length; i++) {
-      requests.push(this.requestBid(validBidRequests[i]));
+      requests.push(this.createRTBRequestUTL(validBidRequests[i]));
     }
     return requests;
   },
 
-  requestBid:function(bidReq){
+  createRTBRequestUTL:function(bidReq){
     // build bid request object
     var domain = window.location.host;
-    var page = window.location.host + window.location.pathname + location.search + location.hash;
+    var page = window.location.href;
     var publisherid = bidReq.params.publisherid;
     var bidFloor = bidReq.params.bidfloor;
     var placementCode = bidReq.params.placementCode;
@@ -151,7 +151,7 @@ export const spec = {
         bidResponse.currency=bidResp.cur;
         bidResponse.netRevenue=true;
         bidResponse.requestId=bidRequest.bidId;
-        bidResponse.ttl=360;
+        bidResponse.ttl=180;
         bidResponses.push(bidResponse);
 
         }
