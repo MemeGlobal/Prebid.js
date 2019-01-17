@@ -64,12 +64,12 @@ export const spec = {
     bidsRequested=bidderRequest;
     var requests = [];
     for (var i = 0; i < validBidRequests.length; i++) {
-      requests.push(this.createRTBRequestUTL(validBidRequests[i]));
+      requests.push(this.createRTBRequestURL(validBidRequests[i]));
     }
     return requests;
   },
 
-  createRTBRequestUTL:function(bidReq){
+  createRTBRequestURL:function(bidReq){
     // build bid request object
     var domain = window.location.host;
     var page = window.location.href;
