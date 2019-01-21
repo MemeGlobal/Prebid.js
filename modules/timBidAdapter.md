@@ -3,7 +3,7 @@
 ```
 Module Name: tim Bidder Adapter
 Module Type: Bidder Adapter
-Maintainer: shlomi@thetimmedia.com
+Maintainer: boris@thetimmedia.com
 ```
 
 # Description
@@ -16,8 +16,10 @@ Module that connects to tim's demand sources
         "code":"99",
         "sizes":[[300,250]],
         "bids":[{"bidder":"tim",
-                "params":{"placementCode":"testPlacementCode",
-                "publisherid":"testpublisherid"}
-                }]
+                "params":{
+                "placementCode":"testPlacementCode",
+                "publisherid":"testpublisherid"
+                }
+        }]
     }]
 ```
