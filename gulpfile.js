@@ -77,14 +77,25 @@ function escapePostbidConfig() {
 };
 escapePostbidConfig.displayName = 'escape-postbid-config';
 
+function executeLint(modules, testsCode) {
+  return gulp.src(['src/**/*.js', ('modules/**/' + modules + '.js'), ('test/**/' + testsCode + '.js')])
+    .pipe(eslint())
+    .pipe(eslint.format('stylish'))
+    .pipe(eslint.failAfterError());
+}
+
 function lint(done) {
   if (argv.nolint) {
     return done();
   }
-  return gulp.src(['src/**/*.js', 'modules/**/*.js', 'test/**/*.js'])
-    .pipe(eslint())
-    .pipe(eslint.format('stylish'))
-    .pipe(eslint.failAfterError());
+  return executeLint("*","*");
+};
+
+function lintTim(done) {
+  if (argv.nolint) {
+    return done();
+  }
+  return executeLint("timBidAdapter", "timBidAdapter_spec");
 };
 
 // View the code coverage report in the browser.
@@ -322,6 +333,7 @@ gulp.task('build-bundle-prod', gulp.series(makeWebpackPkg, gulpBundle.bind(null,
 
 // public tasks (dependencies are needed for each task since they can be ran on their own)
 gulp.task('test', gulp.series(clean, lint, test));
+gulp.task('test-tim', gulp.series(clean, lintTim));
 
 gulp.task('test-coverage', gulp.series(clean, testCoverage));
 gulp.task(viewCoverage);
