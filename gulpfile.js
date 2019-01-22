@@ -81,7 +81,7 @@ function lint(done) {
   if (argv.nolint) {
     return done();
   }
-  return gulp.src(['src/**/*.js', 'modules/**/*.js', 'test/**/*.js'])
+  return gulp.src(['src/**/*.js', 'modules/**/timBidAdapter.js', 'test/**/timBidAdapter_spec.js'])
     .pipe(eslint())
     .pipe(eslint.format('stylish'))
     .pipe(eslint.failAfterError());
