@@ -17,14 +17,7 @@ function find(array, property, value) {
 function parseBidRequest(bidRequest) {
   let params = bidRequest.url.split('?')[1];
   var obj = {};
-
-
-
-
-  var pairs = params.split('&'    );
-
-
-
+  var pairs = params.split('&');
   try {
     for (var i in pairs) {
       var split = pairs[i].split('=');
