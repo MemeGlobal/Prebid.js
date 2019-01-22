@@ -40,24 +40,22 @@ describe('timAdapterTests', function () {
 
   describe('buildRequests', function () {
     const validBidRequests = [{
-      'bidder':'tim',
-      'params':{"placementCode":"header-bid-tag-0", "publisherid":"testpublisherid"},
-      "mediaTypes":{"banner":{"sizes":[[300,250]]}},
-      "adUnitCode":"99",
-      "transactionId":"99268e2f-5695-4334-b0cf-48b0d820f4f2",
-      "sizes":[[300,250]],
-      "bidId":"2c9c5333e3a972",
-      "bidderRequestId":"1172997b088c21",
-      "auctionId":"3e300f32-cee0-493f-9240-b43064ed28ee",
-      "src":"client",
-      "bidRequestsCount":1
-      }];
+      'bidder': 'tim',
+      'params': {'placementCode': 'header-bid-tag-0', 'publisherid': 'testpublisherid'},
+      'mediaTypes': {'banner': {'sizes': [[300, 250]]}},
+      'adUnitCode': '99',
+      'transactionId': '6d2fd360-90fb-482d-aa57-2337b7873f48',
+      'sizes': [[300, 250]],
+      'bidId': '26351bb64298e3',
+      'bidderRequestId': '1fee45c6e599eb',
+      'auctionId': '4321e9f7-b4dc-4139-8e2d-ea932c31b46f',
+      'src': 'client',
+      'bidRequestsCount': 1
+    }];
 
     it('bidRequest method', function () {
-      const request = spec.buildRequests(validBidRequests);
-      expect(request.method).to.equal('GET');
+      const requests = spec.buildRequests(validBidRequests);
+      expect(requests[0].method).to.equal('GET');
     });
-
   });
-
 });
