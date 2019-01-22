@@ -602,7 +602,7 @@ function setKeys(keyValues, bidderSettings, custBidObj) {
 }
 
 export function adjustBids(bid) {
-  bid.cpmOriginal=bid.cpm;
+  bid.cpmOriginal = bid.cpm;
   let code = bid.bidderCode;
   let bidPriceAdjusted = bid.cpm;
   let bidCpmAdjustment;
