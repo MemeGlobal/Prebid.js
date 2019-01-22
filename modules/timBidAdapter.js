@@ -1,14 +1,13 @@
 import * as utils from 'src/utils';
-import {config} from 'src/config';
 import {registerBidder} from 'src/adapters/bidderFactory';
-import * as bidfactory from "../src/bidfactory";
+import * as bidfactory from '../src/bidfactory';
 var CONSTANTS = require('src/constants.json');
 const BIDDER_CODE = 'tim';
 var bidsRequested;
 
-function find(array,property,value) {
-  for(let i=0;i<array.length;i++){
-    if(array[i][property]==value){
+function find(array, property, value) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i][property] == value) {
       return array[i];
     }
   }
@@ -16,52 +15,55 @@ function find(array,property,value) {
 }
 
 function parseBidRequest(bidRequest) {
-  let params=bidRequest.url.split('?')[1];
+  let params = bidRequest.url.split('?')[1];
   var obj = {};
   var pairs = params.split('&');
-  try{
-    for(var i in pairs){
+  try {
+    for (var i in pairs) {
       var split = pairs[i].split('=');
       obj[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
     }
-  }catch (e) {
+  } catch (e) {
     utils.logError(e);
   }
 
   return JSON.parse(obj.br);
 }
 
-
 function formatAdMarkup(bid) {
   var adm = bid.adm;
   if ('nurl' in bid) {
-    adm += utils.createTrackPixelHtml(bid.nurl);
+    adm += createTrackPixelHtml(bid.nurl);
   }
-  return "<!DOCTYPE html><html><head><title></title><body style='margin:0px;padding:0px;'>"+adm+"</body></head>";
+  return `<!DOCTYPE html><html><head><title></title><body style='margin:0px;padding:0px;'>${adm}</body></head>`;
+}
+
+function createTrackPixelHtml(url) {
+  if (!url) {
+    return '';
+  }
+  let img = '<div style="position:absolute;left:0px;top:0px;visibility:hidden;">';
+  img += '<img src="' + url + '"></div>';
+  return img;
 }
 
 export const spec = {
   code: BIDDER_CODE,
 
   isBidRequestValid: function(bid) {
-    if(bid.params && bid.params.publisherid && bid.params.placementCode){
+    if (bid.params && bid.params.publisherid && bid.params.placementCode) {
       return true;
-    }
-    if(!bid.params){
-      utils.logError("bid not valid: params were not provided");
-    }
-    else if(!bid.params.publisherid){
-      utils.logError("bid not valid: publisherid was not provided");
-    }
-    else if(!bid.params.placementCode){
-      utils.logError("bid not valid: placementCode was not provided");
-    }
-    return false;
-
+    } if (!bid.params) {
+      utils.logError('bid not valid: params were not provided');
+    } else if (!bid.params.publisherid) {
+      utils.logError('bid not valid: publisherid was not provided');
+    } else if (!bid.params.placementCode) {
+      utils.logError('bid not valid: placementCode was not provided');
+    } return false;
   },
 
-  buildRequests: function(validBidRequests,bidderRequest) {
-    bidsRequested=bidderRequest;
+  buildRequests: function(validBidRequests, bidderRequest) {
+    bidsRequested = bidderRequest;
     var requests = [];
     for (var i = 0; i < validBidRequests.length; i++) {
       requests.push(this.createRTBRequestURL(validBidRequests[i]));
@@ -69,7 +71,7 @@ export const spec = {
     return requests;
   },
 
-  createRTBRequestURL:function(bidReq){
+  createRTBRequestURL: function(bidReq) {
     // build bid request object
     var domain = window.location.host;
     var page = window.location.href;
@@ -79,7 +81,6 @@ export const spec = {
 
     var adW = bidReq.mediaTypes.banner.sizes[0][0];
     var adH = bidReq.mediaTypes.banner.sizes[0][1];
-
 
     // build bid request with impressions
     var bidRequest = {
@@ -100,31 +101,30 @@ export const spec = {
           id: publisherid
         }
       },
-      device:{
-         "language": this.getLanguage(),
-         "w":adW,
-         "h":adH,
-         "js":1,
-         "ua": navigator.userAgent
+      device: {
+        'language': this.getLanguage(),
+        'w': adW,
+        'h': adH,
+        'js': 1,
+        'ua': navigator.userAgent
       }
     };
-    if(!bidFloor){
-      delete bidRequest.imp["bidfloor"];
+    if (!bidFloor) {
+      delete bidRequest.imp['bidfloor'];
     }
 
     bidRequest.bidId = bidReq.bidId;
-    var url = '//hb.stinger-bidder.tech/api/v2/services/prebid/'+publisherid+'/'+placementCode+'?'+'br=' + encodeURIComponent(JSON.stringify(bidRequest));
+    var url = '//hb.stinger-bidder.tech/api/v2/services/prebid/' + publisherid + '/' + placementCode + '?' + 'br=' + encodeURIComponent(JSON.stringify(bidRequest));
     return {
       method: 'GET',
       url: url,
-      data: "",
+      data: '',
       options: {withCredentials: false}
     };
-
   },
 
   interpretResponse: function(serverResponse, bidRequest) {
-    bidRequest=parseBidRequest(bidRequest);
+    bidRequest = parseBidRequest(bidRequest);
     var bidResp = serverResponse.body;
     const bidResponses = [];
     if ((!bidResp || !bidResp.id) ||
@@ -136,7 +136,7 @@ export const spec = {
       var responseCPM;
       var placementCode = '';
       var bidSet = bidsRequested;
-      var bidRequested =find(bidSet.bids,"bidId",bidderBid.impid);
+      var bidRequested = find(bidSet.bids, 'bidId', bidderBid.impid);
       if (bidRequested) {
         var bidResponse = bidfactory.createBid(1);
         placementCode = bidRequested.placementCode;
@@ -156,41 +156,35 @@ export const spec = {
         bidResponse.ad = formatAdMarkup(bidderBid);
         bidResponse.width = parseInt(bidderBid.w);
         bidResponse.height = parseInt(bidderBid.h);
-        bidResponse.currency=bidResp.cur;
-        bidResponse.netRevenue=true;
-        bidResponse.requestId=bidRequest.bidId;
-        bidResponse.ttl=180;
+        bidResponse.currency = bidResp.cur;
+        bidResponse.netRevenue = true;
+        bidResponse.requestId = bidRequest.bidId;
+        bidResponse.ttl = 180;
         bidResponses.push(bidResponse);
-
-        }
+      }
     });
     return bidResponses;
-
-},
+  },
   getLanguage: function() {
-  const language = navigator.language ? 'language' : 'userLanguage';
-  return navigator[language].split('-')[0];
-},
+    const language = navigator.language ? 'language' : 'userLanguage';
+    return navigator[language].split('-')[0];
+  },
 
+  getUserSyncs: function(syncOptions, serverResponses) {
+    const syncs = []
+    return syncs;
+  },
 
-getUserSyncs: function(syncOptions, serverResponses) {
-  const syncs = []
-  return syncs;
-},
+  onTimeout: function(data) {
+    // Bidder specifc code
+  },
 
+  onBidWon: function(bid) {
+    // Bidder specific code
+  },
 
-onTimeout: function(data) {
-  // Bidder specifc code
-},
-
-
-onBidWon: function(bid) {
-  // Bidder specific code
-},
-
-
-onSetTargeting: function(bid) {
-  // Bidder specific code
-},
+  onSetTargeting: function(bid) {
+    // Bidder specific code
+  },
 }
 registerBidder(spec);
