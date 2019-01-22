@@ -78,10 +78,6 @@ function escapePostbidConfig() {
 escapePostbidConfig.displayName = 'escape-postbid-config';
 
 function executeLint(modules, testsCode) {
-  testsCode = testsCode || '*';
-  modules = modules || '*';
-  console.log("modules:" + modules)
-  console.log("testCode:" + testsCode)
   return gulp.src(['src/**/*.js', ('modules/**/' + modules + '.js'), ('test/**/' + testsCode + '.js')])
     .pipe(eslint())
     .pipe(eslint.format('stylish'))
@@ -92,7 +88,7 @@ function lint(done) {
   if (argv.nolint) {
     return done();
   }
-  return executeLint();
+  return executeLint("*","*");
 };
 
 function lintTim(done) {
