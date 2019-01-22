@@ -57,5 +57,10 @@ describe('timAdapterTests', function () {
       const requests = spec.buildRequests(validBidRequests);
       expect(requests[0].method).to.equal('GET');
     });
+
+    it('bidRequest url', function () {
+      const requests = spec.buildRequests(validBidRequests);
+      expect(requests[0].url).to.exists;
+    });
   });
 });
