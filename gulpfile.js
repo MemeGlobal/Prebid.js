@@ -333,7 +333,7 @@ gulp.task('build-bundle-prod', gulp.series(makeWebpackPkg, gulpBundle.bind(null,
 
 // public tasks (dependencies are needed for each task since they can be ran on their own)
 gulp.task('test', gulp.series(clean, lint, test));
-gulp.task('test-tim', gulp.series(clean, lintTim, test));
+gulp.task('test-tim', gulp.series(clean, lintTim));
 
 gulp.task('test-coverage', gulp.series(clean, testCoverage));
 gulp.task(viewCoverage);
