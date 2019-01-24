@@ -120,7 +120,6 @@ export const spec = {
       (!bidResp.seatbid || bidResp.seatbid.length === 0 || !bidResp.seatbid[0].bid || bidResp.seatbid[0].bid.length === 0)) {
       return [];
     }
-
     bidResp.seatbid[0].bid.forEach(function (bidderBid) {
       var responseCPM;
       var placementCode = '';
