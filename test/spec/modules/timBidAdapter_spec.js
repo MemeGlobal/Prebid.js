@@ -108,7 +108,7 @@ describe('timAdapterTests', function () {
             'impid': 'impid',
             'price': 3,
             'nurl': 'https://bidder.url/api/v1/?price=${AUCTION_PRICE}&bidcur=USD&bidid=bidid=true',
-            'adm': '<script type=\"text/javascript\" id=\"main_script\" src=\"https://domain.com/Player.php"></script>',
+            'adm': '<script type=\"text/javascript\" src=\"https://domain.com/Player.php"></script>',
             'adomain': [''],
             'cid': '1',
             'crid': '700',
