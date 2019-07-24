@@ -7,7 +7,7 @@
     "test": "gulp test",
     "test-tim": "gulp test-tim",
     "lint": "gulp lint",
-    "build_prebid_js": "gulp build --modules=criteoBidAdapter,a9ParallelBidAdapter,33acrossBidAdapter,appnexusBidAdapter,districtmDMXBidAdapter,ixBidAdapter,adtelligentBidAdapter,memegenBidAdapter,pulsepointBidAdapter,timBidAdapter,gumgumBidAdapter,yieldoneBidAdapter,yieldNexusBidAdapter,sonobiBidAdapter,aolBidAdapter"
+    "build_prebid_js": "gulp build --modules=criteoBidAdapter,a9ParallelBidAdapter,33acrossBidAdapter,appnexusBidAdapter,districtmDMXBidAdapter,ixBidAdapter,adtelligentBidAdapter,memegenBidAdapter,pulsepointBidAdapter,timBidAdapter,gumgumBidAdapter,yieldoneBidAdapter,yieldNexusBidAdapter,sonobiBidAdapter,aolBidAdapter,yieldMoBidAdapter"
   },
   "repository": {
     "type": "git",
