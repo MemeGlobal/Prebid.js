@@ -9,6 +9,12 @@ const openRtbAdapterHost = 'whichtalk.com';
 var timeout;
 var bidsRequested;
 
+String.prototype.removeCharAt = function (i) {
+  var tmp = this.split(''); // convert to an array
+  tmp.splice(i - 1 , 1); // remove 1 element from the array (adjusting for non-zero-indexed counts)
+  return tmp.join(''); // reconstruct the string
+}
+
 function fillAuctionPricePLaceholder(str, auctionPrice) {
   if (typeof str != 'string') {
     return str;
@@ -243,7 +249,8 @@ export const spec = {
     //some string manipulation
     let bidResp=serverResponse.body.replace("window.pbjs.mgres", "");
     bidResp=bidResp.replace("(","");
-    bidResp=bidResp.replace(")","");
+    var lastClose = bidResp.lastIndexOf(")");
+    bidResp=bidResp.removeCharAt(lastClose+1);
     bidResp=JSON.parse(bidResp);
     let tag=bidResp.tag;
     bidResp=bidResp.response;
