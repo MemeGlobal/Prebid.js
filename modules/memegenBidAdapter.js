@@ -9,12 +9,6 @@ const openRtbAdapterHost = 'whichtalk.com';
 var timeout;
 var bidsRequested;
 
-String.prototype.removeCharAt = function (i) {
-  var tmp = this.split(''); // convert to an array
-  tmp.splice(i - 1 , 1); // remove 1 element from the array (adjusting for non-zero-indexed counts)
-  return tmp.join(''); // reconstruct the string
-}
-
 function fillAuctionPricePLaceholder(str, auctionPrice) {
   if (typeof str != 'string') {
     return str;
@@ -228,8 +222,7 @@ export const spec = {
     }
     var tagId = utils.getBidIdParameter('tagId', bidReq.params);
     bidRequest.bidId = bidReq.bidId;
-    var scriptUrl = '//' + openRtbAdapterHost + '/api/v2/services/prebid?callback=window.$$PREBID_GLOBAL$$.mgres' +
-      '&br=' + encodeURIComponent(JSON.stringify(bidRequest)) +
+    var scriptUrl = '//' + openRtbAdapterHost + '/api/v2/services/prebid?br=' + encodeURIComponent(JSON.stringify(bidRequest)) +
       '&tmax=' + timeout +
       '&tag_id=' + tagId +
       '&bidder_url=' + encodeURIComponent(utils.getBidIdParameter('bidderUrl', bidReq.params));
@@ -246,12 +239,8 @@ export const spec = {
   interpretResponse: function(serverResponse, bidRequest) {
     bidRequest=parseBidRequest(bidRequest);
     const bidResponses = [];
-    //some string manipulation
-    let bidResp=serverResponse.body.replace("window.pbjs.mgres", "");
-    bidResp=bidResp.replace("(","");
-    var lastClose = bidResp.lastIndexOf(")");
-    bidResp=bidResp.removeCharAt(lastClose+1);
-    bidResp=JSON.parse(bidResp);
+    let bidResp= JSON.parse(serverResponse.body);
+
     let tag=bidResp.tag;
     bidResp=bidResp.response;
     ///////
