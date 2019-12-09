@@ -222,8 +222,7 @@ export const spec = {
     }
     var tagId = utils.getBidIdParameter('tagId', bidReq.params);
     bidRequest.bidId = bidReq.bidId;
-    var scriptUrl = '//' + openRtbAdapterHost + '/api/v2/services/prebid?callback=window.$$PREBID_GLOBAL$$.mgres' +
-      '&br=' + encodeURIComponent(JSON.stringify(bidRequest)) +
+    var scriptUrl = '//' + openRtbAdapterHost + '/api/v2/services/prebid?&br=' + encodeURIComponent(JSON.stringify(bidRequest)) +
       '&tmax=' + timeout +
       '&tag_id=' + tagId +
       '&bidder_url=' + encodeURIComponent(utils.getBidIdParameter('bidderUrl', bidReq.params));
