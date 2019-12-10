@@ -239,7 +239,7 @@ export const spec = {
   interpretResponse: function(serverResponse, bidRequest) {
     bidRequest=parseBidRequest(bidRequest);
     const bidResponses = [];
-    let bidResp= JSON.parse(serverResponse.body);
+    let bidResp= serverResponse.body;
 
     let tag=bidResp.tag;
     bidResp=bidResp.response;
