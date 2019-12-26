@@ -113,7 +113,7 @@ export const spec = {
           },
           tagid: toStringIfExists(rtbTagId || bidReq.placementCode),
           bidfloor: bidFloor,
-          exp: 180,
+          bidfloorcur: "USD",
           secure: secureValue()
         }],
         app: {
@@ -155,7 +155,7 @@ export const spec = {
           },
           tagid: toStringIfExists(rtbTagId || bidReq.placementCode),
           bidfloor: bidFloor,
-          exp: 180,
+          bidfloorcur: "USD",
           secure: secureValue()
         }],
         site: {
