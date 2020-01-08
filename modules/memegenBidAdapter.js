@@ -108,7 +108,7 @@ export const spec = {
         imp: [{
           id: bidReq.bidId,
           banner: {
-            pos:'1',
+            pos:1,
             mimes:["*/*"],
             w: adW,
             h: adH
